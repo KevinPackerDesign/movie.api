@@ -1,0 +1,6 @@
+{"_id":{"$oid":"60d3c1c94de8bea8a4fc4087"},"Username":"Kpacker","Password":"Packer","Email":"KevinPacker@gmail.com","Birthday":{"$date":"1989-07-01T00:00:00Z"},"FavoriteMovies":[{"$oid":"60d266f2110ba6cb037125d9"}]}
+{"_id":{"$oid":"60d3c7024de8bea8a4fc4089"},"Username":"Kpacker","Password":"Packer","Email":"KevinPacker@gmail.com","Birthday":{"$date":"1989-07-01T00:00:00Z"}}
+{"_id":{"$oid":"60d3c7024de8bea8a4fc408a"},"Username":"Dpacker","Password":"Packer","Email":"DanielPacker@gmail.com","Birthday":{"$date":"1985-05-09T00:00:00Z"}}
+{"_id":{"$oid":"60d3c7044de8bea8a4fc408b"},"Username":"Jpacker","Password":"Packer","Email":"JasminePacker@gmail.com","Birthday":{"$date":"1991-08-25T00:00:00Z"},"FavoriteMovies":[{"$oid":"60adab82b562c4aa313fc644"}]}
+{"_id":{"$oid":"60d3c8e84de8bea8a4fc408c"},"Username":"Gpacker","Password":"Packer","Email":"GemaPacker@gmail.com","Birthday":{"$date":"2020-08-01T00:00:00Z"}}
+{"_id":{"$oid":"60d3c8ea4de8bea8a4fc408d"},"Username":"Spacker","Password":"Packer","Email":"StevePacker@gmail.com","Birthday":{"$date":"1973-07-13T00:00:00Z"}}

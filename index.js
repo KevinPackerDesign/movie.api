@@ -1,218 +1,255 @@
 const express = require("express"),
   morgan = require("morgan");
 const app = express();
-const bodyParser = require("body-parser"),
-  methodOverride = require("method-override");
+const bodyParser = require("body-parser");
+const mongoose = require("mongoose");
+const Models = require("./models.js");
 
-app.use(
-  bodyParser.urlencoded({
-    extended: true,
-  })
-);
+const Movies = Models.Movie;
+const Users = Models.User;
 
-app.use(bodyParser.json());
-app.use(methodOverride());
-
-app.use(morgan("common"));
-
-app.use((err, req, res, next) => {
-  console.error(err.stack);
-  res.status(500).send("Something broke!");
+mongoose.connect("mongodb://localhost:27017/myFlixDB", {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
 });
 
-let users = [
-  {
-    id: 1,
-    Username: "Kevin Packer",
-    Password: "1234",
-    Email: "kevinpackerdesign@gmail.com",
-    Birthday: "07/01/1989",
-    FavoriteMovies: [],
-  },
-  {
-    id: 2,
-    Username: "Jasmine Magsaysay",
-    Password: "5678",
-    Email: "jasminesfca@gmail.com",
-    Birthday: "08/25/1991",
-    FavoriteMovies: [],
-  },
-  {
-    id: 3,
-    Username: "Daniel Packer",
-    Password: "5555",
-    Email: "packerdaniel@yahoo.com",
-    Birthday: "05/09/1985",
-    FavoriteMovies: [],
-  },
-];
+//express.static
+//"documentation.html" file from public folder
+app.use(express.static("public"));
 
-let movies = [
-  {
-    id: 1,
-    Title: "Mortal Kombat",
-    Description:
-      "MMA fighter Cole Young seeks out Earth's greatest champions in order to stand against the enemies of Outworld in a high stakes ballted for the universe",
-    Genre: {
-      Name: "Action",
-      Description:
-        "Action film is a film genre in which the protagonist or protagoninst are thrust into a series of events that typically include violence, extended fighting, physical feats, rescues and grantic chases",
-    },
-    Director: {
-      Name: "Simon McQuoid",
-      Bio:
-        "Simon McQuoid is an Australian filmmaker, best known for the 2021 reboot of Mortal Kombat. McQuoid's background was in direction commercials",
-      Birth: "1984",
-      Death: "----",
-    },
-    ImagePath:
-      "https://www.catholicnews.com/wp-content/uploads/custom/20210422T1130-MOVIE-REVIEW-MORTAL-KOMBAT-1246434.jpg",
-    Featured: true,
-  },
-  {
-    Title: "Justice League Snyder's cut",
-    Description:
-      "Fueled by his restored faith in humanity and inspired by Superman's selfless act, Bruce Wayne enlists newfound ally Diana Prince to face an even greater threat. Together Batman and WonderWoman work quickly to recruit a team to stand against this newly awakened enemy. Despite the formation of an unprescedented league of heroes it may be too late to save the planet from an assault of catastrophic proportions.",
-    Genre: {
-      Name: "Action",
-      Description:
-        "Action film is a film genre in which the protagonist or protagoninst are thrust into a series of events that typically include violence, extended fighting, physical feats, rescues and grantic chases",
-    },
-    Director: {
-      Name: "Zack Snyder",
-      Bio:
-        "Zachary Edward Snyder is an American file director, producer and screenwriter. He made is feature film debut in 2004 with a remake of the 1978 horror film 'Dawn of the Dead'",
-      Birth: "1966",
-      Death: "----",
-    },
-    ImagePath:
-      "https://images-na.ssl-images-amazon.com/images/I/71SS6iqW3ML._AC_SL1500_.jpg",
-    Featured: true,
-  },
-  {
-    Title: "Empire Records",
-    Description:
-      "Joe runs Empire Records, an independent Delaware store that emplots a tight-knit group of music-savvy youths. Hearing that the shop may be sold to a big chain, slacker employee Lucas bets a chunk of the store's money hoping to get a big return. When this plan fails, Empire Records falls into serious trouble, and the various other clerks, including lovely Corey and gloomy Deb, must deal with the problem, among many other issues.",
-    Genre: {
-      Name: "Comedy",
-      Description:
-        "A comedy film is a category of film in which the main emphasis is on humor. These films are designed to make the audience laugh through amusement and most often work by exaggeration characteristics of humorous effect. Films is this style traditionally have a happy ending.",
-    },
-    Director: {
-      Name: "Allan Moyle",
-      Bio:
-        "Allan Moyle is a Canadian film director. He is best known for directing the films 'Pump Up the Volume' and 'Empire Records'",
-      Birth: "1947",
-      Death: "----",
-    },
-    ImagePath:
-      "https://images-na.ssl-images-amazon.com/images/I/51kYOSFhjAL._AC_SY450_.jpg",
-    Featured: false,
-  },
+//Morgan middleware function to log all requests
+app.use(morgan("common"));
+app.use(bodyParser.json());
 
-  {
-    Title: "Serenity",
-    Description:
-      "Set in 2517, Serenity is the story of the crew of Serenity, a 'Firefly-class' spaceship. The captain and first mate are veterans of the Unification War, having fought on the losing Independent side against the Alliance",
-    Genre: {
-      Name: "Action",
-      Description:
-        "Action film is a film genre in which the protagonist or protagoninst are thrust into a series of events that typically include violence, extended fighting, physical feats, rescues and grantic chases.",
-    },
-    Director: {
-      Name: "Joss Whedon",
-      Bio:
-        "Joseph Hill Whedon is an American film director, producer, writer, and composer. He is the founder of Mutant Enemy Productions, co-founder of Bellwether Pictures, and is best known as the creator of several television series. These include Buffy the Vampire Slayer, Angle, Firefly, Dollhouse and Agents of S.H.I.E.L.D.",
-      Birth: "1964",
-      Death: "----",
-    },
-    ImagePath:
-      "https://images-na.ssl-images-amazon.com/images/I/51EsHctpuHL._AC_.jpg",
-    Featured: false,
-  },
-];
-
-// GET requests
+//List of all movies
 app.get("/", function (req, res) {
   res.send("Welcome to Flix Fix!");
 });
+
 app.get("/movies", function (req, res) {
-  res.json(movies);
-});
-app.get("/movies/:Title", (req, res) => {
-  res.json(
-    movies.find((movie) => {
-      return movie.Title === req.params.Title;
+  Movies.find()
+    .then(function (movies) {
+      res.status(201).json(movies);
     })
-  );
-});
-app.get("/movies/director/:Name", (req, res) => {
-  res.json(
-    movies.find((movie) => {
-      return movie.Director.Name === req.params.Name;
-    })
-  );
+    .catch(function (err) {
+      console.error(err);
+      res.status(500).send("Error: " + err);
+    });
 });
 
-app.get("/movies/genres/:Name", (req, res) => {
-  res.json(
-    movies.find((movie) => {
-      return movie.Genre.Name === req.params.Name;
-    })
-  );
-});
-//User endpoints
+//get information about a movie by title
+app.get(
+  "/movies/:Title",
+
+  function (req, res) {
+    Movies.findOne({ Title: req.params.Title })
+      .then(function (movies) {
+        res.json(movies);
+      })
+      .catch(function (err) {
+        console.error(err);
+        res.status(500).send("Error: " + err);
+      });
+  }
+);
+
+//get data about a director
+app.get(
+  "/movies/directors/:Name",
+
+  function (req, res) {
+    Movies.findOne({ "Director.Name": req.params.Name })
+      .then(function (movies) {
+        res.json(movies.Director);
+      })
+      .catch(function (err) {
+        console.error(err);
+        res.status(500).send("Error: " + err);
+      });
+  }
+);
+
+//get data about a genre by name
+app.get(
+  "/movies/genres/:Name",
+
+  function (req, res) {
+    Movies.findOne({ "Genre.Name": req.params.Name })
+      .then(function (movies) {
+        res.json(movies.Genre);
+      })
+      .catch(function (err) {
+        console.error(err);
+        res.status(500).send("Error: " + err);
+      });
+  }
+);
+
+//user endpoints
+//get a list of users
 app.get("/users", function (req, res) {
-  res.json(users);
-});
-//adds user
-app.post("/users", (req, res) => {
-  res.status(500).send("User added!");
-});
-
-//updates user information
-app.put("/users/:Username", (req, res) => {
-  res.json(
-    users.find((user) => {
-      return user.Username === req.params.Username;
+  Users.find()
+    .then(function (users) {
+      res.status(201).json(users);
     })
-  );
+    .catch(function (err) {
+      console.error(err);
+      res.status(500).send("Error: " + err);
+    });
 });
 
-app.get("/users/:Username", (req, res) => {
-  res.json(
-    users.find((user) => {
-      return user.Username === req.params.Username;
+//get a user by username
+app.get(
+  "/users/:Username",
+
+  function (req, res) {
+    Users.findOne({ Username: req.params.Username })
+      .then(function (user) {
+        res.json(user);
+      })
+      .catch(function (err) {
+        console.error(err);
+        res.status(500).send("Error: " + err);
+      });
+  }
+);
+
+//add user
+/*We'll expect JSON in this format
+{
+  ID: Integer,
+  Username: String,
+  Password: String,
+  Email: String,
+  Birthdate: Date
+}*/
+app.post("/users", function (req, res) {
+  // check the validation object for errors
+  Users.findOne({ Username: req.body.Username }) //Search to see if a user with the requested username already exists
+    .then(function (user) {
+      if (user) {
+        //If the user is found, send a response that it already exists
+        return res.status(400).send(req.body.Username + " already exists");
+      } else {
+        Users.create({
+          Username: req.body.Username,
+          Password: req.body.Password,
+          Email: req.body.Email,
+          Birthday: req.body.Birthday,
+        })
+          .then(function (user) {
+            res.status(201).json(user);
+          })
+          .catch(function (error) {
+            console.error(error);
+            res.status(500).send("Error: " + error);
+          });
+      }
     })
-  );
+    .catch(function (error) {
+      console.error(error);
+      res.status(500).send("Error: " + error);
+    });
 });
 
-//allows user to add movie to favorites
-app.post("/users/:Username/favorites", (req, res) => {
-  res.status(500).send("Succesfully added movie to favorites!");
-});
+//Update a user's info by username
+/*We'll expect JSON in this format
+{
+  Username: String, (required)
+  Password: String, (required)
+  Email: String, (required)
+  Birthday: Date
+}*/
+app.put(
+  "/users/:Username",
 
-//allows user to remove movie from favorites
-app.delete("/users/:Username/favorites", (req, res) => {
-  res.status(500).send("Successfully removed movie from favorites.");
-});
+  (req, res) => {
+    Users.findOneAndUpdate(
+      { Username: req.params.Username },
+      {
+        $set: {
+          Username: req.body.Username,
+          Password: req.body.Password,
+          Email: req.body.Email,
+          Birthday: req.body.Birthday,
+        },
+      },
+      { new: true }, //This Line makes sure that the updated document is returned
+      (err, updatedUser) => {
+        if (err) {
+          console.error(err);
+          res.status(500).send("Error: " + err);
+        } else {
+          res.json(updatedUser);
+        }
+      }
+    );
+  }
+);
 
-//allows user to deregister
-app.delete("/users/:Email", (req, res) => {
-  res.status(500).send("User Deleted.");
-});
+// Delete a user by username
+app.delete(
+  "/users/:Username",
 
-app.get("/documentation", (req, res) => {
-  res.sendFile("public/documentation.html", { root: __dirname });
-});
+  function (req, res) {
+    Users.findOneAndRemove({ Username: req.params.Username })
+      .then(function (user) {
+        if (!user) {
+          res.status(400).send(req.params.Username + " was not found.");
+        } else {
+          res.status(200).send(req.params.Username + " was deleted.");
+        }
+      })
+      .catch(function (err) {
+        console.error(err);
+        res.status(500).send("Error: " + err);
+      });
+  }
+);
 
-//error handling middleware
-app.use((err, req, res, next) => {
-  console.error(err.stack);
-  res.status(500).send("Something broke!");
-});
+// Add a movie to a user's list of favorites
+app.post(
+  "/users/:Username/movies/:MovieID",
 
-// listen for requests
-app.listen(8080, () => {
-  console.log("Your app is listening on port 8080.");
+  function (req, res) {
+    Users.findOneAndUpdate(
+      { Username: req.params.Username },
+      { $push: { FavoriteMovies: req.params.MovieID } },
+      { new: true }, //This line makes sure the updated document is returned
+      function (err, updatedUser) {
+        if (err) {
+          console.error(err);
+          res.status(500).send("Error: " + err);
+        } else {
+          res.json(updatedUser);
+        }
+      }
+    );
+  }
+);
+
+//delete movie from user's list of favorites
+app.delete(
+  "/users/:Username/movies/:MovieID",
+
+  function (req, res) {
+    Users.findOneAndUpdate(
+      { Username: req.params.Username },
+      { $pull: { FavoriteMovies: req.params.MovieID } },
+      { new: true },
+      function (err, updatedUser) {
+        if (err) {
+          console.error(err);
+          res.status(500).send("Error: " + err);
+        } else {
+          res.json(updatedUser);
+        }
+      }
+    );
+  }
+);
+
+const port = process.env.PORT || 8080;
+app.listen(port, "0.0.0.0", () => {
+  console.log("Listening on Port " + port);
 });

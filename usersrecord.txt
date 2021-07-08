@@ -1,0 +1,55 @@
+let user1 = {
+    Username:"Kevin Packer",
+    Password:"1234",
+    Email: "kevinpacker@rocketmail.com",
+    Birthday: new Date("1989-07-01"),
+    FavoriteMovies: [],
+
+}
+
+db.users.insertOne(user1)
+
+var user1 ={
+  Username: "Kpacker",
+  Password: "Packer",
+  Email: "KevinPacker@gmail.com",
+  Birthday: new Date("1989-07-01"),
+  
+}
+db.users.insertOne(user1)
+
+var user2 ={
+  Username: "Dpacker",
+  Password: "Packer",
+  Email: "DanielPacker@gmail.com",
+  Birthday: new Date("1985-05-09"),
+  
+}
+db.users.insertOne(user2)
+
+var user3 ={
+  Username: "Jpacker",
+  Password: "Packer",
+  Email: "JasminePacker@gmail.com",
+  Birthday: new Date("1991-08-25"),
+  
+}
+db.users.insertOne(user3)
+
+var user4 ={
+  Username: "Gpacker",
+  Password: "Packer",
+  Email: "GemaPacker@gmail.com",
+  Birthday: new Date("2020-08-01"),
+  
+}
+db.users.insertOne(user4)
+
+var user5 ={
+  Username: "Spacker",
+  Password: "Packer",
+  Email: "StevePacker@gmail.com",
+  Birthday: new Date("1973-07-13"),
+  
+}
+db.users.insertOne(user5)
