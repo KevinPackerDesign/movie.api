@@ -7,6 +7,9 @@ const Models = require("./models.js");
 
 const Movies = Models.Movie;
 const Users = Models.User;
+let auth = require("./auth")(app);
+const passport = require("passport");
+require("./passport");
 
 mongoose.connect("mongodb://localhost:27017/myFlixDB", {
   useNewUrlParser: true,
@@ -26,20 +29,25 @@ app.get("/", function (req, res) {
   res.send("Welcome to Flix Fix!");
 });
 
-app.get("/movies", function (req, res) {
-  Movies.find()
-    .then(function (movies) {
-      res.status(201).json(movies);
-    })
-    .catch(function (err) {
-      console.error(err);
-      res.status(500).send("Error: " + err);
-    });
-});
+app.get(
+  "/movies",
+  passport.authenticate("jwt", { session: false }),
+  function (req, res) {
+    Movies.find()
+      .then(function (movies) {
+        res.status(201).json(movies);
+      })
+      .catch(function (err) {
+        console.error(err);
+        res.status(500).send("Error: " + err);
+      });
+  }
+);
 
 //get information about a movie by title
 app.get(
   "/movies/:Title",
+  passport.authenticate("jwt", { session: false }),
 
   function (req, res) {
     Movies.findOne({ Title: req.params.Title })
@@ -56,6 +64,7 @@ app.get(
 //get data about a director
 app.get(
   "/movies/directors/:Name",
+  passport.authenticate("jwt", { session: false }),
 
   function (req, res) {
     Movies.findOne({ "Director.Name": req.params.Name })
@@ -72,6 +81,7 @@ app.get(
 //get data about a genre by name
 app.get(
   "/movies/genres/:Name",
+  passport.authenticate("jwt", { session: false }),
 
   function (req, res) {
     Movies.findOne({ "Genre.Name": req.params.Name })
@@ -101,6 +111,7 @@ app.get("/users", function (req, res) {
 //get a user by username
 app.get(
   "/users/:Username",
+  passport.authenticate("jwt", { session: false }),
 
   function (req, res) {
     Users.findOne({ Username: req.params.Username })
@@ -123,34 +134,35 @@ app.get(
   Email: String,
   Birthdate: Date
 }*/
-app.post("/users", function (req, res) {
-  // check the validation object for errors
-  Users.findOne({ Username: req.body.Username }) //Search to see if a user with the requested username already exists
-    .then(function (user) {
-      if (user) {
-        //If the user is found, send a response that it already exists
-        return res.status(400).send(req.body.Username + " already exists");
-      } else {
-        Users.create({
-          Username: req.body.Username,
-          Password: req.body.Password,
-          Email: req.body.Email,
-          Birthday: req.body.Birthday,
-        })
-          .then(function (user) {
-            res.status(201).json(user);
+passport.authenticate("jwt", { session: false }),
+  app.post("/users", function (req, res) {
+    // check the validation object for errors
+    Users.findOne({ Username: req.body.Username }) //Search to see if a user with the requested username already exists
+      .then(function (user) {
+        if (user) {
+          //If the user is found, send a response that it already exists
+          return res.status(400).send(req.body.Username + " already exists");
+        } else {
+          Users.create({
+            Username: req.body.Username,
+            Password: req.body.Password,
+            Email: req.body.Email,
+            Birthday: req.body.Birthday,
           })
-          .catch(function (error) {
-            console.error(error);
-            res.status(500).send("Error: " + error);
-          });
-      }
-    })
-    .catch(function (error) {
-      console.error(error);
-      res.status(500).send("Error: " + error);
-    });
-});
+            .then(function (user) {
+              res.status(201).json(user);
+            })
+            .catch(function (error) {
+              console.error(error);
+              res.status(500).send("Error: " + error);
+            });
+        }
+      })
+      .catch(function (error) {
+        console.error(error);
+        res.status(500).send("Error: " + error);
+      });
+  });
 
 //Update a user's info by username
 /*We'll expect JSON in this format
@@ -162,6 +174,7 @@ app.post("/users", function (req, res) {
 }*/
 app.put(
   "/users/:Username",
+  passport.authenticate("jwt", { session: false }),
 
   (req, res) => {
     Users.findOneAndUpdate(
@@ -190,6 +203,7 @@ app.put(
 // Delete a user by username
 app.delete(
   "/users/:Username",
+  passport.authenticate("jwt", { session: false }),
 
   function (req, res) {
     Users.findOneAndRemove({ Username: req.params.Username })
@@ -210,6 +224,7 @@ app.delete(
 // Add a movie to a user's list of favorites
 app.post(
   "/users/:Username/movies/:MovieID",
+  passport.authenticate("jwt", { session: false }),
 
   function (req, res) {
     Users.findOneAndUpdate(
@@ -231,6 +246,7 @@ app.post(
 //delete movie from user's list of favorites
 app.delete(
   "/users/:Username/movies/:MovieID",
+  passport.authenticate("jwt", { session: false }),
 
   function (req, res) {
     Users.findOneAndUpdate(
