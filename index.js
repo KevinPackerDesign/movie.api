@@ -36,7 +36,7 @@ require("./passport");
 // });
 
 mongoose.connect(
-  "mongodb+srv://kevinpacker:kevinpacker@cluster0.ghnpw.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
+  "mongodb+srv://kevinpacker:kevinpacker@cluster0.ghnpw.mongodb.net/myFlixDB?retryWrites=true&w=majority",
   {
     useNewUrlParser: true,
     useUnifiedTopology: true,
