@@ -53,3 +53,5 @@ var user5 ={
   
 }
 db.users.insertOne(user5)
+
+mongoimport --uri mongodb+srv://kevinpacker:kevinpacker@cluster0.ghnpw.mongodb.net/myFlixDB --collection users --type json --file users.json

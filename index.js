@@ -30,10 +30,18 @@ let auth = require("./auth")(app);
 const passport = require("passport");
 require("./passport");
 
-mongoose.connect("mongodb://localhost:27017/myFlixDB", {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
+// mongoose.connect("mongodb://localhost:27017/myFlixDB", {
+//   useNewUrlParser: true,
+//   useUnifiedTopology: true,
+// });
+
+mongoose.connect(
+  "mongodb+srv://kevinpacker:kevinpacker@cluster0.ghnpw.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
+  {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  }
+);
 
 //express.static
 //"documentation.html" file from public folder
