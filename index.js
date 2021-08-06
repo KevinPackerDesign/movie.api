@@ -11,21 +11,7 @@ const Users = Models.User;
 const cors = require("cors");
 let allowedOrigins = ["http://localhost:8080", "http://testsite.com"];
 
-app.use(
-  cors({
-    origin: (origin, callback) => {
-      if (!origin) return callback(null, true);
-      if (allowedOrigins.indexOf(origin) === -1) {
-        // If a specific origin isn’t found on the list of allowed origins
-        let message =
-          "The CORS policy for this application doesn’t allow access from origin " +
-          origin;
-        return callback(new Error(message), false);
-      }
-      return callback(null, true);
-    },
-  })
-);
+app.use(cors());
 let auth = require("./auth")(app);
 const passport = require("passport");
 require("./passport");
@@ -50,7 +36,7 @@ app.use(bodyParser.json());
 
 //List of all movies
 app.get("/", function (req, res) {
-  res.send("Welcome to Flix Fix!");
+  res.send("documentation.html");
 });
 
 app.get(
@@ -88,7 +74,7 @@ app.get(
 //get data about a director
 app.get(
   "/movies/directors/:Name",
-  passport.authenticate("jwt", { session: false }),
+  // passport.authenticate("jwt", { session: false }),
 
   function (req, res) {
     Movies.findOne({ "Director.Name": req.params.Name })
@@ -105,7 +91,7 @@ app.get(
 //get data about a genre by name
 app.get(
   "/movies/genres/:Name",
-  passport.authenticate("jwt", { session: false }),
+  // passport.authenticate("jwt", { session: false }),
 
   function (req, res) {
     Movies.findOne({ "Genre.Name": req.params.Name })
@@ -121,16 +107,20 @@ app.get(
 
 //user endpoints
 //get a list of users
-app.get("/users", function (req, res) {
-  Users.find()
-    .then(function (users) {
-      res.status(201).json(users);
-    })
-    .catch(function (err) {
-      console.error(err);
-      res.status(500).send("Error: " + err);
-    });
-});
+app.get(
+  "/users",
+  passport.authenticate("jwt", { session: false }),
+  function (req, res) {
+    Users.find()
+      .then(function (users) {
+        res.status(201).json(users);
+      })
+      .catch(function (err) {
+        console.error(err);
+        res.status(500).send("Error: " + err);
+      });
+  }
+);
 
 //get a user by username
 app.get(
