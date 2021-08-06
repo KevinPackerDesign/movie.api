@@ -6,33 +6,28 @@
 - A little bit about my app
 - **ENDPOINTS all of them are app.get()**
   *https://kpmyflix.herokuapp.com/
-  *This will get you to the main page.\*
-  *https://kpmyflix.herokuapp.com/__movies__
-  *This will get you a list of the movies in the database.\*
-  *https://kpmyflix.herokuapp.com/__movies/:Title__
-  *This will get you a movie by title._ **It is case sensitive!**
-  \_https://kpmyflix.herokuapp.com/__movies/genres/:Name**
-  \_This will get you a description of the Genre._ **It is case sensitive as well!** \*https://kpmyflix.herokuapp.com/**movies/directors/:Name**
+  *This will get you to the main page.*
+  *https://kpmyflix.herokuapp.com/__movies**
+  _This will get you a list of the movies in the database._ \*https://kpmyflix.herokuapp.com/**movies/:Title**
+  _This will get you a movie by title._ **It is case sensitive!** \*https://kpmyflix.herokuapp.com/**movies/genres/:Name**
+  _This will get you a description of the Genre._ **It is case sensitive as well!** \*https://kpmyflix.herokuapp.com/**movies/directors/:Name**
   _This will get you a description of a Director._ **It is also case sensitive** \*https://kpmyflix.herokuapp.com/**users**
   _This will get you a list of the users._ \*https://kpmyflix.herokuapp.com/user/**:Userame\_\_
   _This will get a User my name._ **Case sensitive**
 
   **ENDPOINTS**
-  *https://kpmyflix.herokuapp.com/__users__
-  *This is an app.post() endpoint.
-  _Use this to register a new user._
-  *https://kpmyflix.herokuapp.com/__users/:Username__
-  *This is an app.put() endpoint.
-  _Use this to update a Users information._
-  *https://kpmyflix.herokuapp.com/__users/:Username__
-  *This is an app.delete() endpoint.
-  _Use this to delete a User_
-  *https://kpmyflix.herokuapp.com/users/__:Username/movies/:MovieID__
-  *This is an app.post() endpoint.
-  _This is to add a favorite movie to the Favorits list._
-  *https://kpmyflix.herokuapp.com/users/__:Username/movies/:MovieID__
-  *This is an app.delete() endpoint.
-  _This is to delete a favorite movie to the Favorits list._
+  *https://kpmyflix.herokuapp.com/__users_*
+  **This is an app.post() endpoint.**
+  \_Use this to register a new user.*
+  *https://kpmyflix.herokuapp.com/__users/:Username**
+  **This is an app.put() endpoint.**
+  _Use this to update a Users information._ \*https://kpmyflix.herokuapp.com/**users/:Username**
+  **This is an app.delete() endpoint.**
+  _Use this to delete a User_ \*https://kpmyflix.herokuapp.com/users/**:Username/movies/:MovieID**
+  **This is an app.post() endpoint.**
+  _This is to add a favorite movie to the Favorits list._ \*https://kpmyflix.herokuapp.com/users/**:Username/movies/:MovieID\__
+  **This is an app.delete() endpoint.**
+  \_This is to delete a favorite movie to the Favorits list._
 
 Well this is all the endpoint that I have in my app right now.
 
