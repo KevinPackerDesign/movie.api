@@ -10,9 +10,9 @@
   *https://kpmyflix.herokuapp.com/__movies__
   *This will get you a list of the movies in the database.\*
   *https://kpmyflix.herokuapp.com/__movies/:Title__
-  *This will get you a movie by name._ **It is case sensitive!**
-  _https://kpmyflix.herokuapp.com/__movies/genres/:Name**
-  _This will get you a description of the Genre._ **It is case sensitive as well!** \*https://kpmyflix.herokuapp.com/**movies/directors/:Name**
+  *This will get you a movie by title._ **It is case sensitive!**
+  \_https://kpmyflix.herokuapp.com/__movies/genres/:Name**
+  \_This will get you a description of the Genre._ **It is case sensitive as well!** \*https://kpmyflix.herokuapp.com/**movies/directors/:Name**
   _This will get you a description of a Director._ **It is also case sensitive** \*https://kpmyflix.herokuapp.com/**users**
   _This will get you a list of the users._ \*https://kpmyflix.herokuapp.com/user/**:Userame\_\_
   _This will get a User my name._ **Case sensitive**
