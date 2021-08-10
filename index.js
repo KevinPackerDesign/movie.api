@@ -36,7 +36,9 @@ app.use(bodyParser.json());
 
 //List of all movies
 app.get("/", function (req, res) {
-  res.send("Welcome to Flix Fix!");
+  res.sendFile("public/documentation.html", {
+    root: __dirname,
+  });
 });
 
 app.get(
