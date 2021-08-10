@@ -3,7 +3,7 @@
 
 - 🔭 I’m currently working on [myflixDB](https://kpmyflix.herokuapp.com/). This is part of a course that I am taking to learn how to code. I have learned quite a bit but I still have a long way to go and will probably continue to learn for as long I am contiune in the field.
 
-- 🌱 I’m currently learning **Framework, back & front end development.**
+- 🌱 I’m currently learning **Framework, back & front end development. Starting to work with React.**
 
 - 👨‍💻 All of my projects are available at GitHub [https://github.com/KevinPackerDesign](https://github.com/KevinPackerDesign)
 
