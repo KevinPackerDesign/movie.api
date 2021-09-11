@@ -43,7 +43,7 @@ app.get("/", function (req, res) {
 
 app.get(
   "/movies",
-  // passport.authenticate("jwt", { session: false }),
+  passport.authenticate("jwt", { session: false }),
   function (req, res) {
     Movies.find()
       .then(function (movies) {
@@ -59,7 +59,7 @@ app.get(
 //get information about a movie by title
 app.get(
   "/movies/:Title",
-  // passport.authenticate("jwt", { session: false }),
+  passport.authenticate("jwt", { session: false }),
 
   function (req, res) {
     Movies.findOne({ Title: req.params.Title })
@@ -76,7 +76,7 @@ app.get(
 //get data about a director
 app.get(
   "/movies/directors/:Name",
-  // passport.authenticate("jwt", { session: false }),
+  passport.authenticate("jwt", { session: false }),
 
   function (req, res) {
     Movies.findOne({ "Director.Name": req.params.Name })
@@ -93,7 +93,7 @@ app.get(
 //get data about a genre by name
 app.get(
   "/movies/genres/:Name",
-  // passport.authenticate("jwt", { session: false }),
+  passport.authenticate("jwt", { session: false }),
 
   function (req, res) {
     Movies.findOne({ "Genre.Name": req.params.Name })
