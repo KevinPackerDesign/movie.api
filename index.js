@@ -9,7 +9,7 @@ const { check, validationResult } = require("express-validator");
 const Movies = Models.Movie;
 const Users = Models.User;
 const cors = require("cors");
-let allowedOrigins = ["http://localhost:52026", "http://testsite.com"];
+// let allowedOrigins = ["http://localhost:52026", "http://testsite.com"];
 
 app.use(cors());
 let auth = require("./auth")(app);
@@ -111,7 +111,7 @@ app.get(
 //get a list of users
 app.get(
   "/users",
-  passport.authenticate("jwt", { session: false }),
+  // passport.authenticate("jwt", { session: false }),
   function (req, res) {
     Users.find()
       .then(function (users) {
